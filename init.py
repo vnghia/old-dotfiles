@@ -41,13 +41,15 @@ def check_and_install_zsh():
     from python.utils.download import download_as_str
     from python.utils.opt import read_binary
 
-    zsh_not_found = shutil.which("zsh") is None
-    if zsh_not_found:
+    zsh_path = shutil.which("zsh")
+    if not zsh_path:
         if read_binary("Zsh not found. Install Zsh"):
             install_script = download_as_str(
                 "https://raw.githubusercontent.com/romkatv/zsh-bin/master/install"
             )
             subprocess.check_call(["sh", "-c", install_script])
+    else:
+        print(f"Zsh found at {zsh_path}")
 
 
 def init():
