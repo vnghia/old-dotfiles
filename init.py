@@ -44,15 +44,15 @@ def init():
     )
     clone_dotfiles(DOTFILES_REPO_URL, dotfiles_home)
 
-    dotfiles_sh_home = dotfiles_home / "sh"
-    dotfiles_zsh_home = dotfiles_home / "zsh"
-    dotfiles_python_home = dotfiles_home / "python"
-
-    sys.path.append(dotfiles_python_home)
+    sys.path.append(dotfiles_home)
 
     from python.utils.opt import read_binary, read_path
 
     code_home = read_path("Enter code home", HOME / "code")
+
+    dotfiles_sh_home = dotfiles_home / "sh"
+    dotfiles_zsh_home = dotfiles_home / "zsh"
+    dotfiles_python_home = dotfiles_home / "python"
 
     generate_root_zshenv(
         dotfiles_home,
