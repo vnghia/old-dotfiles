@@ -26,6 +26,7 @@ def generate_root_zshenv(
     dotfiles_python_home: Path,
 ):
     zshenv_path = HOME / ".zshenv"
+    zshenv_path.unlink(missing_ok=True)
     with open(zshenv_path, "w") as f:
         f.write("# AUTO GENERATED FILE. DO NOT EDIT\n\n")
         f.write(f"export ZDOTDIR={dotfiles_zsh_home}\n")
