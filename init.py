@@ -1,3 +1,4 @@
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -49,7 +50,7 @@ def init():
 
     sys.path.append(dotfiles_python_home)
 
-    from python.utils.opt import read_path
+    from python.utils.opt import read_binary, read_path
 
     code_home = read_path("Enter code home", HOME / "code")
 
@@ -60,6 +61,21 @@ def init():
         dotfiles_zsh_home,
         dotfiles_python_home,
     )
+
+    zsh_found = shutil.which("zsh") is not None
+    if zsh_found:
+        return
+
+    install_zsh = read_binary("Shell zsh not found. Install zsh")
+    if not install_zsh:
+        return
+
+    from python.utils.download import download_as_str
+
+    install_script = download_as_str(
+        "https://raw.githubusercontent.com/romkatv/zsh-bin/master/install"
+    )
+    subprocess.check_call(["sh", "-c", install_script])
 
 
 if __name__ == "__main__":
