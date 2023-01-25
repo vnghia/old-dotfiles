@@ -43,7 +43,7 @@ def check_and_install_zsh():
 
     zsh_not_found = shutil.which("zsh") is None
     if zsh_not_found:
-        if read_binary("Shell zsh not found. Install zsh"):
+        if read_binary("Zsh not found. Install Zsh"):
             install_script = download_as_str(
                 "https://raw.githubusercontent.com/romkatv/zsh-bin/master/install"
             )
