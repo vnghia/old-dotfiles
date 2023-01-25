@@ -37,6 +37,25 @@ def generate_root_zshenv(
     zshenv_path.chmod(0o555)
 
 
+def check_and_install_zsh():
+    zsh_found = shutil.which("zsh") is not None
+    if zsh_found:
+        return
+
+    from python.utils.opt import read_binary
+
+    install_zsh = read_binary("Shell zsh not found. Install zsh")
+    if not install_zsh:
+        return
+
+    from python.utils.download import download_as_str
+
+    install_script = download_as_str(
+        "https://raw.githubusercontent.com/romkatv/zsh-bin/master/install"
+    )
+    subprocess.check_call(["sh", "-c", install_script])
+
+
 def init():
     dotfiles_home = HOME / ".dotfiles"
     dotfiles_home = Path(
@@ -46,7 +65,7 @@ def init():
 
     sys.path.append(str(dotfiles_home))
 
-    from python.utils.opt import read_binary, read_path
+    from python.utils.opt import read_path
 
     code_home = read_path("Enter code home", HOME / "code")
 
@@ -62,20 +81,7 @@ def init():
         dotfiles_python_home,
     )
 
-    zsh_found = shutil.which("zsh") is not None
-    if zsh_found:
-        return
-
-    install_zsh = read_binary("Shell zsh not found. Install zsh")
-    if not install_zsh:
-        return
-
-    from python.utils.download import download_as_str
-
-    install_script = download_as_str(
-        "https://raw.githubusercontent.com/romkatv/zsh-bin/master/install"
-    )
-    subprocess.check_call(["sh", "-c", install_script])
+    check_and_install_zsh()
 
 
 if __name__ == "__main__":
