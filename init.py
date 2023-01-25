@@ -44,7 +44,7 @@ def init():
     )
     clone_dotfiles(DOTFILES_REPO_URL, dotfiles_home)
 
-    sys.path.append(dotfiles_home)
+    sys.path.append(str(dotfiles_home))
 
     from python.utils.opt import read_binary, read_path
 
