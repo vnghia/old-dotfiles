@@ -1,4 +1,5 @@
 import subprocess
+import sys
 from pathlib import Path
 
 HOME = Path.home()
@@ -16,12 +17,49 @@ def clone_dotfiles(dotfiles_repo_url: str, dotfiles_home: Path):
     subprocess.check_call(["git", "pull", "origin", "main"], cwd=dotfiles_home)
 
 
+def generate_root_zshenv(
+    dotfiles_home: Path,
+    code_home: Path,
+    dotfiles_sh_home: Path,
+    dotfiles_zsh_home: Path,
+    dotfiles_python_home: Path,
+):
+    zshenv_path = HOME / ".zshenv"
+    with open(zshenv_path, "w") as f:
+        f.write("# AUTO GENERATED FILE. DO NOT EDIT\n\n")
+        f.write(f"export ZDOTDIR={dotfiles_zsh_home}\n")
+        f.write(f"export DF_HOME={dotfiles_home}\n")
+        f.write(f"export CODE_HOME={code_home}\n")
+        f.write(f"export DF_SH_HOME={dotfiles_sh_home}\n")
+        f.write(f"export DF_ZSH_HOME={dotfiles_zsh_home}\n")
+        f.write(f"export DF_PYTHON_HOME={dotfiles_python_home}\n")
+    zshenv_path.chmod(0o555)
+
+
 def init():
     dotfiles_home = HOME / ".dotfiles"
     dotfiles_home = Path(
         input(f"Enter dotfiles home ({dotfiles_home}): ") or dotfiles_home
     )
     clone_dotfiles(DOTFILES_REPO_URL, dotfiles_home)
+
+    dotfiles_sh_home = dotfiles_home / "sh"
+    dotfiles_zsh_home = dotfiles_home / "zsh"
+    dotfiles_python_home = dotfiles_home / "python"
+
+    sys.path.append(dotfiles_python_home)
+
+    from python.utils.opt import read_path
+
+    code_home = read_path("Enter code home", HOME / "code")
+
+    generate_root_zshenv(
+        dotfiles_home,
+        code_home,
+        dotfiles_sh_home,
+        dotfiles_zsh_home,
+        dotfiles_python_home,
+    )
 
 
 if __name__ == "__main__":
