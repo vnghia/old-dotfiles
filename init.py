@@ -49,8 +49,28 @@ def check_and_install_zsh():
             install_script = download_as_str(
                 "https://raw.githubusercontent.com/romkatv/zsh-bin/master/install"
             )
-            subprocess.check_call(["sh", "-c", install_script])
+            zsh_path = (
+                Path(
+                    subprocess.run(
+                        [
+                            "sh",
+                            "-c",
+                            install_script,
+                            "sh",
+                            "-s",
+                            str(sys.stderr.fileno()),
+                        ],
+                        check=True,
+                        stderr=subprocess.PIPE,
+                    )
+                    .stderr.decode()
+                    .splitlines()[-1]
+                )
+                / "bin"
+                / "zsh"
+            )
     else:
+        zsh_path = Path(zsh_path)
         print(f"Zsh found at {zsh_path}")
 
     if get_current_shell() != "zsh":
