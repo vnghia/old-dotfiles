@@ -62,6 +62,14 @@ def check_and_install_zsh():
         print(f"  (3) Add new terminal profile with command {zsh_path}")
 
 
+def print_install_font():
+    print("Please install Jetbrains Mono font.")
+    print("  (1) https://github.com/JetBrains/JetBrainsMono")
+    print(
+        "  (2) https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/JetBrainsMono/Ligatures/Regular"
+    )
+
+
 def init():
     dotfiles_home = HOME / ".dotfiles"
     dotfiles_home = Path(
@@ -88,6 +96,8 @@ def init():
     )
 
     check_and_install_zsh()
+
+    print_install_font()
 
 
 if __name__ == "__main__":
