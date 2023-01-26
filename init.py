@@ -41,6 +41,7 @@ def generate_root_zshenv(
 def check_and_install_zsh():
     from python.utils.download import download_as_str
     from python.utils.opt import read_binary
+    from python.utils.shell import get_current_shell
 
     zsh_path = shutil.which("zsh")
     if not zsh_path:
@@ -51,6 +52,14 @@ def check_and_install_zsh():
             subprocess.check_call(["sh", "-c", install_script])
     else:
         print(f"Zsh found at {zsh_path}")
+
+    if get_current_shell() != "zsh":
+        print("Please set Zsh as default shell.")
+        print(f"  (1) sudo chsh -s {zsh_path}")
+        print(f"  (2) Add to .bash_profile / .bashrc / .profile")
+        print(f"      export SHELL={zsh_path}")
+        print(f'      [ -z "$ZSH_VERSION" ] && exec {zsh_path} -l')
+        print(f"  (3) Add new terminal profile with command {zsh_path}")
 
 
 def init():
