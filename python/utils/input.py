@@ -2,7 +2,9 @@ from pathlib import Path
 
 
 def read_input(prompt: str, default: str, *args: str) -> str:
-    return input(f"{prompt} ({'/'.join((default,) + args)}): ") or default
+    user_input = input(f"{prompt} ({'/'.join((default,) + args)}): ") or default
+    print("")
+    return user_input
 
 
 def read_path(prompt: str, default: Path) -> Path:
