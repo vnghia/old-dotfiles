@@ -40,7 +40,7 @@ def generate_root_zshenv(
 
 def check_and_install_zsh():
     from python.utils.download import download_as_str
-    from python.utils.opt import read_binary
+    from python.utils.input import read_binary
     from python.utils.shell import get_current_shell
 
     zsh_path = shutil.which("zsh")
@@ -79,7 +79,7 @@ def init():
 
     sys.path.append(str(dotfiles_home))
 
-    from python.utils.opt import read_path
+    from python.utils.input import read_path
 
     code_home = read_path("Enter code home", HOME / "code")
 
