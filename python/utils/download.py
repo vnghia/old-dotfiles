@@ -1,5 +1,3 @@
-import io
-from typing import BinaryIO
 from urllib.request import urlopen
 
 
