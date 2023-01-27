@@ -113,6 +113,8 @@ def init():
     dotfiles_zsh_home = dotfiles_home / "zsh"
     dotfiles_python_home = dotfiles_home / "python"
 
+    check_and_install_zsh()
+
     generate_root_zshenv(
         dotfiles_home,
         code_home,
@@ -120,8 +122,6 @@ def init():
         dotfiles_zsh_home,
         dotfiles_python_home,
     )
-
-    check_and_install_zsh()
 
     print_install_font()
 
