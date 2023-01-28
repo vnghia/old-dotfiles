@@ -54,4 +54,5 @@ def download_to_file(
         else open(dest, "wb", **kwargs)
     )
     download_to_stream(url, dest_file, prompt)
+    dest_file.flush()
     return dest_file
