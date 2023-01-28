@@ -40,28 +40,22 @@ def generate_root_zshenv(
 
 
 def check_and_install_zsh():
-    from python.utils.download import download_as_str
+    from python.setup import SetupScript
     from python.utils.input import read_binary
     from python.utils.shell import get_current_shell
 
     zsh_path = shutil.which("zsh")
     if not zsh_path:
         if read_binary("Zsh not found. Install Zsh"):
-            install_script = download_as_str(
+            zsh_setup = SetupScript(
                 "https://raw.githubusercontent.com/romkatv/zsh-bin/master/install",
                 "Zsh",
             )
             zsh_path = (
                 Path(
-                    subprocess.run(
-                        [
-                            "sh",
-                            "-c",
-                            install_script,
-                            "sh",
-                            "-s",
-                            str(sys.stderr.fileno()),
-                        ],
+                    zsh_setup.execute(
+                        "-s",
+                        str(sys.stderr.fileno()),
                         check=True,
                         stderr=subprocess.PIPE,
                     )
