@@ -16,7 +16,7 @@ def clone_dotfiles(dotfiles_repo_url: str, dotfiles_home: Path):
         ["git", "remote", "add", "origin", dotfiles_repo_url], cwd=dotfiles_home
     )
     subprocess.check_call(["git", "pull", "origin", "main"], cwd=dotfiles_home)
-    print("")
+    print()
 
 
 def generate_root_zshenv(
@@ -73,7 +73,7 @@ def check_and_install_zsh():
     else:
         zsh_path = Path(zsh_path)
         print(f"Zsh found at {zsh_path}")
-        print("")
+        print()
 
     if get_current_shell() != "zsh":
         print("Please set Zsh as default shell.")
@@ -82,7 +82,7 @@ def check_and_install_zsh():
         print(f"      export SHELL={zsh_path}")
         print(f'      [ -z "$ZSH_VERSION" ] && exec {zsh_path} -l')
         print(f"  (3) Add new terminal profile with command {zsh_path}")
-        print("")
+        print()
 
 
 def print_install_font():
@@ -91,7 +91,7 @@ def print_install_font():
     print(
         "  (2) https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/JetBrainsMono/Ligatures/Regular"
     )
-    print("")
+    print()
 
 
 def init():
@@ -99,7 +99,7 @@ def init():
     dotfiles_home = Path(
         input(f"Enter dotfiles home ({dotfiles_home}): ") or dotfiles_home
     )
-    print("")
+    print()
 
     clone_dotfiles(DOTFILES_REPO_URL, dotfiles_home)
 

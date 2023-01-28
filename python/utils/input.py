@@ -3,7 +3,7 @@ from pathlib import Path
 
 def read_input(prompt: str, default: str, *args: str) -> str:
     user_input = input(f"{prompt} ({'/'.join((default,) + args)}): ") or default
-    print("")
+    print()
     return user_input
 
 
