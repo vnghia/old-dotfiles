@@ -48,7 +48,8 @@ def check_and_install_zsh():
     if not zsh_path:
         if read_binary("Zsh not found. Install Zsh"):
             install_script = download_as_str(
-                "https://raw.githubusercontent.com/romkatv/zsh-bin/master/install"
+                "https://raw.githubusercontent.com/romkatv/zsh-bin/master/install",
+                "Zsh",
             )
             zsh_path = (
                 Path(
