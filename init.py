@@ -44,33 +44,29 @@ def check_and_install_zsh():
     from python.utils.input import read_binary
     from python.utils.shell import get_current_shell
 
-    zsh_path = shutil.which("zsh")
-    if not zsh_path:
-        if read_binary("Zsh not found. Install Zsh"):
-            zsh_setup = SetupScript(
-                "https://raw.githubusercontent.com/romkatv/zsh-bin/master/install",
-                "Zsh",
-            )
-            zsh_path = (
-                Path(
-                    zsh_setup.execute(
-                        "-s",
-                        str(sys.stderr.fileno()),
-                        check=True,
-                        stderr=subprocess.PIPE,
-                    )
-                    .stderr.decode()
-                    .splitlines()[-1]
-                )
-                / "bin"
-                / "zsh"
-            )
-    else:
-        zsh_path = Path(zsh_path)
-        print(f"Zsh found at {zsh_path}")
-        print()
+    zsh_setup = SetupScript(
+        "https://raw.githubusercontent.com/romkatv/zsh-bin/master/install",
+        "zsh",
+    )
 
-    if get_current_shell() != "zsh":
+    zsh_path = zsh_setup.bin_path
+    if zsh_setup.should_install:
+        zsh_path = (
+            Path(
+                zsh_setup.execute(
+                    "-s",
+                    str(sys.stderr.fileno()),
+                    check=True,
+                    stderr=subprocess.PIPE,
+                )
+                .stderr.decode()
+                .splitlines()[-1]
+            )
+            / "bin"
+            / "zsh"
+        )
+
+    if zsh_path and get_current_shell() != "zsh":
         print("Please set Zsh as default shell.")
         print(f"  (1) sudo chsh -s {zsh_path}")
         print(f"  (2) Add to .bash_profile / .bashrc / .profile")
