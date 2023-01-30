@@ -1,3 +1,4 @@
+import os
 import shutil
 import subprocess
 from pathlib import Path
@@ -27,7 +28,7 @@ class SetupBase:
         )
         self.bin_path = Path(bin_path_str) if bin_path_str else None
 
-        self.suffix = suffix
+        self.suffix = ("" if suffix and suffix.startswith(".") else ".") + suffix
         self.installed = False
 
     def download(
