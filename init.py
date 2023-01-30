@@ -54,8 +54,8 @@ def check_and_install_zsh():
         zsh_path = (
             Path(
                 zsh_setup.execute(
-                    "-s",
-                    str(sys.stderr.fileno()),
+                    "sh",
+                    f"-s {sys.stderr.fileno()}",
                     check=True,
                     stderr=subprocess.PIPE,
                 )

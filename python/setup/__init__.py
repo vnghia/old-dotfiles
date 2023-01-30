@@ -37,21 +37,13 @@ class SetupBase:
 
 class SetupScript(SetupBase):
     def __init__(
-        self,
-        url: str,
-        command: str,
-        prompt: Optional[str] = None,
-        suffix: str = ".sh",
-        entry_point: Optional[str] = "sh",
+        self, url: str, command: str, prompt: Optional[str] = None, suffix: str = ".sh"
     ):
         super().__init__(url, command, prompt, suffix)
-        self.entry_point = entry_point
 
-    def execute(self, *args: str, **kwargs):
+    def execute(self, prefix_cmd: str = "", suffix_cmd: str = "", **kwargs):
         if self.should_install:
             return subprocess.run(
-                ([self.entry_point] if self.entry_point else [])
-                + [self.dest_file.name]
-                + list(args),
+                prefix_cmd.split() + [self.dest_file.name] + suffix_cmd.split(),
                 **kwargs,
             )
